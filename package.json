@@ -1,26 +1,27 @@
 {
-  "name": "repository-template",
+  "name": "odin-battleship",
   "version": "1.0.0",
   "description": "This is Repository Template build for reference",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamjoker021/repository-template.git"
+    "url": "git+https://github.com/iamjoker021/odin-battleship.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/iamjoker021/repository-template/issues"
+    "url": "https://github.com/iamjoker021/odin-battleship/issues"
   },
-  "homepage": "https://github.com/iamjoker021/repository-template#readme",
+  "homepage": "https://github.com/iamjoker021/odin-battleship#readme",
   "devDependencies": {
     "css-loader": "^7.1.2",
     "html-webpack-plugin": "^5.6.0",
+    "jest": "^29.7.0",
     "style-loader": "^4.0.0",
     "webpack": "^5.93.0",
     "webpack-cli": "^5.1.4"
