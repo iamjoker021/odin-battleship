@@ -4,6 +4,7 @@ describe('ship', () => {
     it('is present', () => {
         expect(Ship).not.toBeUndefined();
         expect(Ship).not.toBeNull();
+        expect(typeof Ship === 'function').toBe(true);
     })
 
     it('throw error for invalid argument', () => {
