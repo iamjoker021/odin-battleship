@@ -1,10 +1,4 @@
 const Ship = (length) => {
-    if (!(typeof length === 'number' && 
-        parseInt(length) === length && 
-        length > 0 && length <= 5)) {
-        throw new Error('Valid length should be given');
-    }
-
     const _length = length;
     let _hit=0;
 

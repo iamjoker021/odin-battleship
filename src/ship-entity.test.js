@@ -7,18 +7,6 @@ describe('ship', () => {
         expect(typeof Ship === 'function').toBe(true);
     })
 
-    it('throw error for invalid argument', () => {
-        expect(() => {Ship()}).toThrow('Valid length should be given');
-        expect(() => {Ship('abc')}).toThrow('Valid length should be given');
-        expect(() => {Ship(undefined)}).toThrow('Valid length should be given');
-        expect(() => {Ship(null)}).toThrow('Valid length should be given');
-        expect(() => {Ship('124')}).toThrow('Valid length should be given');
-        expect(() => {Ship(2.555)}).toThrow('Valid length should be given');
-        expect(() => {Ship(40**400)}).toThrow('Valid length should be given');
-        expect(() => {Ship(10)}).toThrow('Valid length should be given');
-        expect(() => {Ship(-3)}).toThrow('Valid length should be given');
-    })
-
     const ship = Ship(3);
 
     describe('is method exists', () => {
