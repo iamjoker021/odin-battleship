@@ -7,6 +7,55 @@
 
 /*** Style ***/
 body {
-    background-color: black;
-    color: white;
+    background-color: burlywood;
+}
+
+.title {
+    font-size: 3rem;
+}
+
+.playground {
+    border: 5px solid brown;
+    border-radius: 15px;
+    width: 80%;
+    margin: 1rem auto;
+    padding: 3%;
+}
+
+.start-game input {
+    text-align: center;
+    padding: 1%;
+    font-size: 2rem;
+}
+
+.start-game button {
+    color: burlywood;
+    background-color: brown;
+    border-radius: 48%;
+    padding: 3%;
+    margin-top: 4px;
+    font-size: 2rem;
+}
+
+/*** Layout ***/
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.playground {
+    flex: 1 1 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
 }
