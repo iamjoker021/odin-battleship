@@ -37,6 +37,34 @@ body {
     font-size: 2rem;
 }
 
+.ship-form > * {
+    margin: 8px 0;
+}
+
+.ship-form button {
+    color: burlywood;
+    background-color: brown;
+    border-radius: 48%;
+    padding: 3%;
+    margin-top: 4px;
+    font-size: 2rem;
+}
+
+.ship-form fieldset {
+    padding: 4px;
+}
+
+.ship-form fieldset button {
+    color: burlywood;
+    background-color: brown;
+    font-size: 12px;
+    padding: 0%;
+}
+
+.gameboard .ship {
+    background-color: gray;
+}
+
 
 /*** Layout ***/
 html, body {
@@ -70,6 +98,20 @@ body {
 form {
     display: flex;
     flex-direction: column;
+}
+
+form fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+form fieldset div {
+    display: flex;
+    flex-direction: column;
+}
+
+form fieldset div > * {
+    flex: 1;
 }
 
 .gameboard .buttons {
