@@ -37,6 +37,7 @@ body {
     font-size: 2rem;
 }
 
+
 /*** Layout ***/
 html, body {
     height: 100%;
@@ -51,11 +52,29 @@ body {
 .playground {
     flex: 1 1 0;
     display: flex;
+    gap: 16px;
     justify-content: center;
-    align-items: center;
+}
+
+.playground .gameboard {
+    flex: 1;
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+}
+
+.playground .gameboard .buttons {
+    flex: 1;
 }
 
 form {
     display: flex;
     flex-direction: column;
+}
+
+.gameboard .buttons {
+    flex: 1 0 0;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
 }
