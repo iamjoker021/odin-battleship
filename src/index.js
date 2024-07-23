@@ -42,6 +42,7 @@ const DOMHandler = () => {
     const getGridDisplay = (player, isReal, isActive) => {
         const gameboard = document.createElement('div');
         gameboard.classList.add('gameboard');
+        gameboard.classList.add(isReal ? 'player' : 'computer');
 
         const playerName = document.createElement('h3');
         playerName.textContent = `${player.getName()} | ShipsAlive: ${player.getGameboard().getShipStatus()['shipsAlive']}` ;
@@ -55,6 +56,8 @@ const DOMHandler = () => {
             row.forEach((val, j) => {
                 const button = document.createElement('button');
                 button.type='button';
+                button.dataset.x = j;
+                button.dataset.y = i;
                 if (isActive) {
                     button.disabled = false;
                 } 
@@ -65,8 +68,15 @@ const DOMHandler = () => {
                 if (val === 0) {
                     button.textContent = '-';
                 }
+                else if (val === 'M') {
+                    button.textContent = 'X';
+                    button.disabled = true;
+                }
                 else if (val === 'H') {
                     button.textContent = 'X';
+                    button.classList.add('ship');
+                    button.classList.add('hit');
+                    button.disabled = true;
                 }
                 else {
                     if (isReal) {
@@ -75,6 +85,7 @@ const DOMHandler = () => {
                     button.textContent = '-';
                 }
                 buttonGrid.appendChild(button);
+                button.addEventListener('click', playRound);
             })
         })
 
@@ -162,11 +173,55 @@ const DOMHandler = () => {
         playground.appendChild(getShipForm())
     }
 
-    const displayPlaygroud = (players) => {
+    const gameOver = () => {
+        let playerLost;
+        for (const player of players) {
+            if(player.getGameboard().getShipStatus().shipsAlive === 0) {
+                playerLost = player;
+            };
+        }
+        if (!playerLost) {
+            return false;
+        }
+        const playerWon = playerLost === players[0] ? players[1] : players[0]
+        clearPlayground();
+        const container = document.querySelector('section.playground');
+        container.appendChild(getGridDisplay(players[0], true, false));
+        container.appendChild(getGridDisplay(players[1], false, false));
+
+        const body = document.querySelector('body');
+
+        const h1 = document.createElement('h1');
+        h1.textContent = `GameOver! ${playerWon.getName()} Wins`;
+        body.appendChild(h1);
+        return true;
+    }
+
+    const displayPlaygroud = () => {
+        clearPlayground();
         const container = document.querySelector('section.playground');
         playerTurn = playerTurn === 1 ? 0 : 1;
         container.appendChild(getGridDisplay(players[0], true, playerTurn===0));
-        container.appendChild(getGridDisplay(players[1], false, playerTurn===1));
+        container.appendChild(getGridDisplay(players[1], false, playerTurn));
+    }
+
+    const playRound = (e) => {
+        e.preventDefault();
+        console.log('Playe Round triggered')
+
+        // Human Play
+        if (!gameOver()) {
+            players[1].getGameboard().receiveAttack(e.target.dataset.y, e.target.dataset.x);
+            displayPlaygroud();
+        }
+
+        // Computer Play
+        if (!gameOver()) {
+            while (!players[0].getGameboard()
+                .receiveAttack(Math.round(Math.random() * 9), Math.round(Math.random() * 9))
+            ) ;
+            displayPlaygroud();
+        };
     }
 
     homePage();
@@ -177,10 +232,10 @@ const DOMHandler = () => {
         players[0] = Player(playerName);
         players[1] = Player('Computer');
 
-        placeShipOnGridRandom(players[0])
-        placeShipOnGridRandom(players[1])
-        clearPlayground();
-        displayPlaygroud(players);
+        placeShipOnGridRandom(players[0]);
+        placeShipOnGridRandom(players[1]);
+
+        displayPlaygroud();
     })
 
 }
