@@ -28,13 +28,17 @@ describe('GameBoard', () => {
         it('has shipStatus function', () => {
             expect(typeof gameboard.getShipStatus === 'function').toBe(true);
         })
+
+        it('has clearGameboard function', () => {
+            expect(typeof gameboard.clearGameboard === 'function').toBe(true);
+        })
     })
 
     describe('check if method works', () => {
         const gameboard = Gameboard();
 
         describe('test the placeShip', () => {
-            const expected = [
+            let expected = [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -77,7 +81,7 @@ describe('GameBoard', () => {
         })
 
         describe('test receive Attack', () => {
-            const expected = [
+            let expected = [
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -116,6 +120,62 @@ describe('GameBoard', () => {
                 statusExpected['shipSunkStatus']['cruiser'] = true;
                 expect(gameboard.getShipStatus()).toEqual(statusExpected);
             })
+        })
+
+        describe('test if clear gameboard works', () => {
+            let expected = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ]
+            const gameboard = Gameboard();
+            gameboard.placeShip('cruiser', 3, 1, 1, true);
+            expected[1][1] = 'cruiser'; expected[2][1] = 'cruiser'; expected[3][1] = 'cruiser';
+            statusExpected = {
+                shipsAlive: 1,
+                shipSunkStatus: {
+                    'cruiser': false
+                }
+            }
+            gameboard.receiveAttack(1, 1);
+            expected[1][1] = 'H';
+            expect(gameboard.getGrid()).toEqual(expected);
+            expect(gameboard.getShipStatus()).toEqual(statusExpected);
+            gameboard.receiveAttack(2, 1);
+            gameboard.receiveAttack(3, 1);
+            statusExpected['shipsAlive'] = 0;
+            statusExpected['shipSunkStatus']['cruiser'] = true;
+            expect(gameboard.getShipStatus()).toEqual(statusExpected);
+
+            it('test if clear gameboard works', () => {
+                gameboard.clearGameboard();
+                expected = [
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                ]
+                statusExpected = {
+                    shipsAlive: 0,
+                    shipSunkStatus: {}
+                }
+                expect(gameboard.getGrid()).toEqual(expected);
+                expect(gameboard.getShipStatus()).toEqual(statusExpected);
+            })
+
         })
     })
 

@@ -1,14 +1,12 @@
 const { Ship } = require("./ship-entity");
 
 const Gameboard = () => {
-    let _ships = {}
-
+    let _grid, _ships;
     const _GRIDSIZE=10;
-    const _grid = [...Array(_GRIDSIZE).keys()].map((k) => [...Array(_GRIDSIZE).keys()].map((k) => 0));
 
     const getGrid = () => _grid;
-    // Grid Status: 0 - Empty, H - Hit, shipName - Ship which is present
 
+    // Grid Status: 0 - Empty, H - Hit, shipName - Ship which is present
     const getShipStatus = () => {
         const shipStatus = {}
         let totalAlive = 0;
@@ -62,7 +60,13 @@ const Gameboard = () => {
         return true;
     }
 
-    return { getGrid, placeShip, receiveAttack, getShipStatus }
+    const clearGameboard = () => {
+        _grid = [...Array(_GRIDSIZE).keys()].map((k) => [...Array(_GRIDSIZE).keys()].map((k) => 0));
+        _ships = {};
+    }
+    clearGameboard();
+
+    return { getGrid, placeShip, receiveAttack, getShipStatus, clearGameboard }
 }
 
 module.exports = {

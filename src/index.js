@@ -91,8 +91,8 @@ const DOMHandler = () => {
             legend.textContent = `${shipName} - Length: ${ship.length}`;
             fieldset.appendChild(legend);
 
-            [...Array(ship.count).keys()].forEach((index) => {
-                const inpContainer = document.createElement('label');
+            for (let index=0; index<ship.count; index++){
+                const inpContainer = document.createElement('div');
                 fieldset.appendChild(inpContainer);
 
                 const label = document.createElement('label');
@@ -115,7 +115,7 @@ const DOMHandler = () => {
                 ok.textContent = 'OK';
                 ok.type = 'button';
                 inpContainer.appendChild(ok);
-            })
+            }
         }
 
         const submitButton = document.createElement('button');

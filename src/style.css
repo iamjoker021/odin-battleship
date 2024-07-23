@@ -105,10 +105,6 @@ form fieldset {
     flex-direction: column;
 }
 
-form fieldset div {
-    display: flex;
-    flex-direction: column;
-}
 
 form fieldset div > * {
     flex: 1;
