@@ -6,7 +6,7 @@ const Gameboard = () => {
 
     const getGrid = () => _grid;
 
-    // Grid Status: 0 - Empty, H - Hit, shipName - Ship which is present
+    // Grid Status: 0 - Empty, H - Hit, M-Miss, shipName - Ship which is present
     const getShipStatus = () => {
         const shipStatus = {}
         let totalAlive = 0;
@@ -45,11 +45,11 @@ const Gameboard = () => {
     }
 
     const receiveAttack = (x, y) => {
-        if (_grid[x][y] === 'H') {
+        if (_grid[x][y] === 'H' || _grid[x][y] === 'M') {
             return false;
         }
         else if (_grid[x][y] === 0) {
-            _grid[x][y] = 'H';
+            _grid[x][y] = 'M';
             return true;
         }
         else {

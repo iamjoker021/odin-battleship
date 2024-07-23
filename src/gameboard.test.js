@@ -97,13 +97,13 @@ describe('GameBoard', () => {
             gameboard.placeShip('cruiser', 3, 1, 1, true);
             expected[1][1] = 'cruiser'; expected[2][1] = 'cruiser'; expected[3][1] = 'cruiser';
 
-            it('test if recieveAttack mark Hit correctly', () => {
+            it('test if recieveAttack mark Miss correctly', () => {
                 gameboard.receiveAttack(7, 7);
-                expected[7][7] = 'H';
+                expected[7][7] = 'M';
                 expect(gameboard.getGrid()).toEqual(expected);
             })
 
-            it('test if recieveAttack reduce ship health on hit', () => {
+            it('test if recieveAttack reduce ship health on hit and mark correctly', () => {
                 statusExpected = {
                     shipsAlive: 1,
                     shipSunkStatus: {
