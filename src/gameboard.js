@@ -50,7 +50,7 @@ const Gameboard = () => {
         }
         else if (_grid[x][y] === 0) {
             _grid[x][y] = 'H';
-            return false;
+            return true;
         }
         else {
             const ship = _ships[_grid[x][y]];
