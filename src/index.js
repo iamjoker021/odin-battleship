@@ -2,7 +2,15 @@ import './style.css';
 const { Player } = require('./player');
 
 const DOMHandler = () => {
+    const SHIPS = {
+        'carrier': {length: 5, count: 1},
+        'battleship': {length: 4, count: 2},
+        'destoyer': {length: 3, count: 3},
+        'submarine': {length:3, count: 4},
+        // 'patrol': {length: 2, count: 5}
+    }
     const players = []
+    let playerTurn = 0;
 
     const clearPlayground = () => {
         const playground = document.querySelector('section.playground');
@@ -31,12 +39,12 @@ const DOMHandler = () => {
         form.appendChild(button);
     }
 
-    const getGridDisplay = (player) => {
+    const getGridDisplay = (player, isReal, isActive) => {
         const gameboard = document.createElement('div');
         gameboard.classList.add('gameboard');
 
         const playerName = document.createElement('h3');
-        playerName.textContent = player.getName();
+        playerName.textContent = `${player.getName()} | ShipsAlive: ${player.getGameboard().getShipStatus()['shipsAlive']}` ;
         gameboard.appendChild(playerName);
 
         const buttonGrid = document.createElement('div');
@@ -47,6 +55,13 @@ const DOMHandler = () => {
             row.forEach((val, j) => {
                 const button = document.createElement('button');
                 button.type='button';
+                if (isActive) {
+                    button.disabled = false;
+                } 
+                else {
+                    button.disabled = true;
+                }
+
                 if (val === 0) {
                     button.textContent = '-';
                 }
@@ -54,7 +69,9 @@ const DOMHandler = () => {
                     button.textContent = 'X';
                 }
                 else {
-                    button.classList.add('ship');
+                    if (isReal) {
+                        button.classList.add('ship');
+                    }
                     button.textContent = '-';
                 }
                 buttonGrid.appendChild(button);
@@ -65,13 +82,6 @@ const DOMHandler = () => {
     }
 
     const getShipForm = () => {
-        const SHIPS = {
-            'carrier': {length: 5, count: 1},
-            'battleship': {length: 4, count: 2},
-            'destoyer': {length: 3, count: 3},
-            'submarine': {length:3, count: 4},
-            // 'patrol': {length: 2, count: 5}
-        }
 
         const form = document.createElement('form');
         form.classList.add('ship-form');
@@ -126,6 +136,23 @@ const DOMHandler = () => {
         return form;
     }
 
+    const placeShipOnGridRandom = (player) => {
+        const gameboard = player.getGameboard();
+        for (const shipType in SHIPS) {
+            const ship = SHIPS[shipType];
+            for(let index=0; index<ship.count; index++) {
+                const shipName = `${shipType}-${index}`;
+                let x, y, isVertical;
+                do {
+                    x= Math.round(Math.random() * 9);
+                    y=Math.round(Math.random() * 9);
+                    isVertical = Math.random() >= 0.5;
+                }
+                while (!gameboard.placeShip(shipName, ship.length, x, y, isVertical))
+            }
+        }
+    }
+
     const diplayFormPage = (player) => {
         // Show the Grid and Player Name on left
         const playground = document.querySelector('section.playground');
@@ -137,9 +164,9 @@ const DOMHandler = () => {
 
     const displayPlaygroud = (players) => {
         const container = document.querySelector('section.playground');
-        for (const player of players) {
-            container.appendChild(getGridDisplay(player));
-        }
+        playerTurn = playerTurn === 1 ? 0 : 1;
+        container.appendChild(getGridDisplay(players[0], true, playerTurn===0));
+        container.appendChild(getGridDisplay(players[1], false, playerTurn===1));
     }
 
     homePage();
@@ -150,8 +177,10 @@ const DOMHandler = () => {
         players[0] = Player(playerName);
         players[1] = Player('Computer');
 
+        placeShipOnGridRandom(players[0])
+        placeShipOnGridRandom(players[1])
         clearPlayground();
-        diplayFormPage(players[0]);
+        displayPlaygroud(players);
     })
 
 }
